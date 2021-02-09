@@ -55,13 +55,23 @@ class App extends React.Component {
 class Result extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      should_show_result: false,
+    }
+
+    this.flip_show_result = this.flip_show_result.bind(this);
+  }
+
+  flip_show_result() {
+    this.setState({ should_show_result: !this.state.should_show_result });
   }
 
   render() {
     var msg = this.props.killed === null ? "昨晚是平安夜" : "昨晚死的是：" + this.props.killed;
     return (
       <div className="Result">
-        <p>{msg}</p>
+        <button onClick={this.flip_show_result}>顯示結果</button>
+        {this.state.should_show_result && <p>{msg}</p>}
       </div>
     );
   }
