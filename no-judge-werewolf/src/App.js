@@ -3,25 +3,33 @@ import Werewolf from './components/Werewolf'
 import Witch from './components/Witch'
 import Result from './components/Result'
 import Savior from './components/Savior'
+import Config from './components/Config'
 import './App.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      savior_enabled: true,
+      config_enabled: true,
+      savior_enabled: false,
       werewolf_enabled: false,
       witch_enabled: false,
 
+      player_count: null,
       killed_by_werewolf: null,
       saved_by_witch: null,
       saved_by_savior: null,
     };
 
+    this.config_complete_cb = this.config_complete_cb.bind(this);
     this.savior_complete_cb = this.savior_complete_cb.bind(this);
     this.werewolf_complete_cb = this.werewolf_complete_cb.bind(this);
     this.witch_complete_cb = this.witch_complete_cb.bind(this);
     this.is_finished = this.is_finished.bind(this);
+  }
+
+  config_complete_cb(count) {
+    this.setState({ config_enabled: false, player_count: count, savior_enabled: true });
   }
 
   savior_complete_cb(saved) {
@@ -51,23 +59,35 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <p>{title}</p>
-          <Savior enabled={this.state.savior_enabled} cb={this.savior_complete_cb} />
+          <Config enabled={this.state.config_enabled} cb={this.config_complete_cb} />
 
-          <Werewolf enabled={this.state.werewolf_enabled} cb={this.werewolf_complete_cb} />
+          <Savior
+            enabled={this.state.savior_enabled}
+            player_count={this.state.player_count}
+            cb={this.savior_complete_cb}
+          />
+
+          <Werewolf
+            enabled={this.state.werewolf_enabled}
+            player_count={this.state.player_count}
+            cb={this.werewolf_complete_cb}
+          />
 
           <Witch enabled={this.state.witch_enabled} killed={this.state.killed_by_werewolf} cb={this.witch_complete_cb} />
 
           <Result
-            enabled={this.is_finished()}
+            enabled={!this.state.config_enabled && this.is_finished()}
             killed_by_werewolf={this.state.killed_by_werewolf}
             saved_by_witch={this.state.saved_by_witch}
             saved_by_savior={this.state.saved_by_savior}
           />
 
         </header>
-        <p>Dead: {this.state.killed_by_werewolf}</p>
+
+        {/* <p>Dead: {this.state.killed_by_werewolf}</p>
         <p>witch enabled: {this.state.witch_enabled ? 1 : 0}</p>
         <p>saved: {this.state.saved_by_savior}</p>
+        <p>player count: {this.state.player_count}</p> */}
       </div>
     );
   }

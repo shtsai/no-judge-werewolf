@@ -1,4 +1,5 @@
 import React from 'react'
+import Board from './Board'
 
 class Savior extends React.Component {
     constructor(props) {
@@ -7,22 +8,15 @@ class Savior extends React.Component {
             saved: -1,
         };
 
-        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        var x = { ...this.state };
-        x.saved = event.target.value;
-        this.setState(x);
-    }
-
     handleSubmit(event) {
+        const saved = parseInt(event.target.textContent);
         this.setState({
-            saved: event.target.value,
+            saved: saved,
         });
-        this.props.cb(this.state.saved)
-        event.preventDefault();
+        this.props.cb(saved)
     }
 
     render() {
@@ -30,13 +24,11 @@ class Savior extends React.Component {
             return (
                 <div>
                     <p>守衛請睁眼：</p>
-                    <form onSubmit={this.handleSubmit}>
-                        <label>
-                            今晚守:
-            <input type="text" value={this.state.saved} onChange={this.handleChange} />
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
+                    <p>今晚守:</p>
+                    <Board
+                        total={this.props.player_count}
+                        cb={this.handleSubmit}
+                    />
                 </div>
             );
         }

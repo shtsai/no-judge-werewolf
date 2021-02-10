@@ -1,4 +1,5 @@
 import React from 'react'
+import Board from './Board'
 
 
 class Werewolf extends React.Component {
@@ -8,22 +9,15 @@ class Werewolf extends React.Component {
             killed: -1,
         };
 
-        this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event) {
-        var x = { ...this.state };
-        x.killed = event.target.value;
-        this.setState(x);
-    }
-
     handleSubmit(event) {
+        const killed = parseInt(event.target.textContent);
         this.setState({
-            killed: event.target.value,
+            killed: killed
         });
-        this.props.cb(this.state.killed)
-        event.preventDefault();
+        this.props.cb(killed)
     }
 
     render() {
@@ -31,13 +25,13 @@ class Werewolf extends React.Component {
             return (
                 <div>
                     <p>狼人請睁眼：</p>
-                    <form onSubmit={this.handleSubmit}>
-                        <label>
-                            今晚杀:
-            <input type="text" value={this.state.killed} onChange={this.handleChange} />
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
+                    <p>
+                        今晚杀:
+                    </p>
+                    <Board
+                        total={this.props.player_count}
+                        cb={this.handleSubmit}
+                    />
                 </div>
             );
         }
