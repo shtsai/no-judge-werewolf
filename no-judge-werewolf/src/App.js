@@ -1,19 +1,31 @@
-import logo from './logo.svg';
-import React, { Component } from 'react'
+import React from 'react'
+import Werewolf from './components/Werewolf'
+import Witch from './components/Witch'
+import Result from './components/Result'
+import Savior from './components/Savior'
 import './App.css';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      werewolf_enabled: true,
-      killed_by_werewolf: null,
+      savior_enabled: true,
+      werewolf_enabled: false,
       witch_enabled: false,
+
+      killed_by_werewolf: null,
+      saved_by_witch: null,
+      saved_by_savior: null,
     };
 
+    this.savior_complete_cb = this.savior_complete_cb.bind(this);
     this.werewolf_complete_cb = this.werewolf_complete_cb.bind(this);
     this.witch_complete_cb = this.witch_complete_cb.bind(this);
     this.is_finished = this.is_finished.bind(this);
+  }
+
+  savior_complete_cb(saved) {
+    this.setState({ savior_enabled: false, saved_by_savior: saved, werewolf_enabled: true });
   }
 
   werewolf_complete_cb(killed) {
@@ -21,16 +33,16 @@ class App extends React.Component {
   }
 
   witch_complete_cb(event) {
-    var x = { ... this.state };
+    var x = { ...this.state };
     x.witch_enabled = false;
     if (event.target.value === 'true') {
-      x.killed_by_werewolf = null;
+      x.saved_by_witch = x.killed_by_werewolf;
     }
     this.setState(x);
   }
 
   is_finished() {
-    return !this.state.werewolf_enabled && !this.state.witch_enabled;
+    return !this.state.werewolf_enabled && !this.state.witch_enabled && !this.state.savior_enabled;
   }
 
   render() {
@@ -39,111 +51,24 @@ class App extends React.Component {
       <div className="App">
         <header className="App-header">
           <p>{title}</p>
+          <Savior enabled={this.state.savior_enabled} cb={this.savior_complete_cb} />
+
           <Werewolf enabled={this.state.werewolf_enabled} cb={this.werewolf_complete_cb} />
 
           <Witch enabled={this.state.witch_enabled} killed={this.state.killed_by_werewolf} cb={this.witch_complete_cb} />
 
-          {this.is_finished() ? <Result killed={this.state.killed_by_werewolf} /> : ''}
+          <Result
+            enabled={this.is_finished()}
+            killed_by_werewolf={this.state.killed_by_werewolf}
+            saved_by_witch={this.state.saved_by_witch}
+            saved_by_savior={this.state.saved_by_savior}
+          />
+
         </header>
         <p>Dead: {this.state.killed_by_werewolf}</p>
         <p>witch enabled: {this.state.witch_enabled ? 1 : 0}</p>
+        <p>saved: {this.state.saved_by_savior}</p>
       </div>
-    );
-  }
-}
-
-class Result extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      should_show_result: false,
-    }
-
-    this.flip_show_result = this.flip_show_result.bind(this);
-  }
-
-  flip_show_result() {
-    this.setState({ should_show_result: !this.state.should_show_result });
-  }
-
-  render() {
-    var msg = this.props.killed === null ? "昨晚是平安夜" : "昨晚死的是：" + this.props.killed;
-    return (
-      <div className="Result">
-        <button onClick={this.flip_show_result}>顯示結果</button>
-        {this.state.should_show_result && <p>{msg}</p>}
-      </div>
-    );
-  }
-}
-
-class Witch extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    if (this.props.enabled) {
-      return (
-        <div className="Witch">
-          <p>女巫請睜眼</p>
-          <p>今晚死的是：{this.props.killed}</p>
-          <button value={true} onClick={this.props.cb}>救</button>
-          <button value={false} onClick={this.props.cb}>不救</button>
-        </div>
-      );
-    }
-
-    return (
-      <div></div>
-    );
-  }
-}
-
-
-class Werewolf extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      killed: -1,
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
-    var x = { ... this.state };
-    x.killed = event.target.value;
-    this.setState(x);
-  }
-
-  handleSubmit(event) {
-    this.setState({
-      killed: event.target.value,
-    });
-    this.props.cb(this.state.killed)
-    event.preventDefault();
-  }
-
-  render() {
-    if (this.props.enabled === true) {
-      return (
-        <div>
-          <p>狼人請睁眼：</p>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              今晚杀:
-          <input type="text" value={this.state.killed} onChange={this.handleChange} />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      );
-    }
-
-    return (
-      <div></div>
     );
   }
 }
