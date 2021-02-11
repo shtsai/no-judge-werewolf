@@ -20,6 +20,7 @@ class Result extends React.Component {
         dead.add(this.props.killed_by_werewolf);
         dead.delete(this.props.saved_by_witch);
         dead.delete(this.props.saved_by_savior);
+        dead.delete(this.props.ancient_index);
         return dead;
     }
 
