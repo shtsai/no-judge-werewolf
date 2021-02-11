@@ -7,7 +7,6 @@ class Config extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: 'Config',
             count: 9,
             enabled_roles: ['Ancient', 'Savior'],
         };
@@ -37,7 +36,7 @@ class Config extends React.Component {
     }
 
     render() {
-        if (this.props.current === this.state.name) {
+        if (this.props.enabled) {
             return (
                 <div>
                     <p>請輸入遊戲配置：</p>
