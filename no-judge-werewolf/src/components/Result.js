@@ -4,6 +4,7 @@ class Result extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: 'Result',
             should_show_result: false,
         }
 
@@ -25,7 +26,7 @@ class Result extends React.Component {
     }
 
     render() {
-        if (this.props.enabled) {
+        if (this.props.current === this.state.name) {
             const dead = this.get_dead();
             var msg = dead.size === 0 ? "昨晚是平安夜" : "昨晚死的是：" + [...dead].join(',');
             return (

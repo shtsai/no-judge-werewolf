@@ -1,15 +1,20 @@
 import React from 'react'
 
+import ToggleButton from 'react-bootstrap/ToggleButton'
+import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
 class Config extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            count: 9
+            name: 'Config',
+            count: 9,
+            enabled_roles: ['Ancient', 'Savior'],
         };
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRoleToggle = this.handleRoleToggle.bind(this);
     }
 
     handleChange(event) {
@@ -22,12 +27,17 @@ class Config extends React.Component {
         this.setState({
             count: event.target.value,
         });
-        this.props.cb(this.state.count)
+        this.props.cb(this.state.count, this.state.enabled_roles)
         event.preventDefault();
     }
 
+    handleRoleToggle(selected_roles) {
+        console.log(selected_roles);
+        this.setState({ enabled_roles: selected_roles });
+    }
+
     render() {
-        if (this.props.enabled === true) {
+        if (this.props.current === this.state.name) {
             return (
                 <div>
                     <p>請輸入遊戲配置：</p>
@@ -47,6 +57,15 @@ class Config extends React.Component {
                         </label>
                         <input type="submit" value="Submit" />
                     </form>
+
+                    <ToggleButtonGroup
+                        type="checkbox"
+                        value={this.state.enabled_roles}
+                        onChange={this.handleRoleToggle}
+                        className="mb-2">
+                        <ToggleButton value='Ancient'>長老</ToggleButton>
+                        <ToggleButton value='Savior'>守衛</ToggleButton>
+                    </ToggleButtonGroup>
                 </div>
             );
         }

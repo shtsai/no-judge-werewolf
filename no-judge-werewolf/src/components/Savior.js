@@ -5,6 +5,7 @@ class Savior extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: 'Savior',
             saved: -1,
         };
 
@@ -20,7 +21,7 @@ class Savior extends React.Component {
     }
 
     render() {
-        if (this.props.enabled === true) {
+        if (this.props.current === this.state.name) {
             return (
                 <div>
                     <p>守衛請睁眼：</p>

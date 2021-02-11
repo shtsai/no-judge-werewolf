@@ -1,8 +1,15 @@
 import React from 'react'
 
 class Witch extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            name: 'Witch'
+        };
+    }
+
     render() {
-        if (this.props.enabled) {
+        if (this.props.current === this.state.name) {
             return (
                 <div className="Witch">
                     <p>女巫請睜眼</p>
