@@ -58,7 +58,7 @@ class App extends React.Component {
   }
 
   is_finished() {
-    return !this.state.werewolf_enabled && !this.state.witch_enabled && !this.state.savior_enabled;
+    return !this.state.werewolf_enabled && !this.state.witch_enabled && !this.state.savior_enabled && !this.state.ancient_enabled;
   }
 
   render() {
