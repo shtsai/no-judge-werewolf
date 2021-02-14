@@ -12,8 +12,7 @@ class Savior extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
-        const saved = parseInt(event.target.textContent);
+    handleSubmit(saved) {
         this.setState({
             saved: saved,
         });

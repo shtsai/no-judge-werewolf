@@ -13,8 +13,7 @@ class Werewolf extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
-        const killed = parseInt(event.target.textContent);
+    handleSubmit(killed) {
         this.setState({
             killed: killed
         });

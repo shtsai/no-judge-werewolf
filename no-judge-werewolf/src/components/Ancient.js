@@ -12,8 +12,7 @@ class Ancient extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(event) {
-        const index = parseInt(event.target.textContent);
+    handleSubmit(index) {
         this.setState({
             ancient_index: index,
         });
