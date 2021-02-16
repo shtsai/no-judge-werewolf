@@ -39,6 +39,7 @@
     ]
   },
   "devDependencies": {
-    "flow-bin": "^0.144.0"
+    "flow-bin": "^0.144.0",
+    "jest": "^26.6.0"
   }
 }
