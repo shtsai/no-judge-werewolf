@@ -1,4 +1,5 @@
 import React from 'react'
+import './css/Board.css';
 
 class Square extends React.Component {
     constructor(props) {
@@ -13,8 +14,9 @@ class Square extends React.Component {
     }
 
     render() {
+        let className = this.props.value === this.props.selected ? "square selected" : "square";
         return (
-            <button onClick={this.handleClick} className="square">
+            <button onClick={this.handleClick} className={className}>
                 {this.props.value}
             </button>
         );
@@ -38,7 +40,11 @@ class Board extends React.Component {
     }
 
     renderSquare(i) {
-        return <Square key={i} value={i} cb={this.selectNumber} />;
+        return <Square
+            key={i}
+            value={i}
+            selected={this.state.selected}
+            cb={this.selectNumber} />;
     }
 
     renderRow(i, total) {
@@ -64,7 +70,7 @@ class Board extends React.Component {
                     {this.renderRow(1, this.props.total)}
                 </div>
                 <div onClick={this.handleSubmit} className="board-row">
-                    <button>確認</button>
+                    <button className="confirmation">確認</button>
                 </div>
             </div>
         );

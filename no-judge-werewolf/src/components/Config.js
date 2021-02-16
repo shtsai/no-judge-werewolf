@@ -3,6 +3,8 @@ import React from 'react'
 import ToggleButton from 'react-bootstrap/ToggleButton'
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup'
 
+import './css/Config.css'
+
 class Config extends React.Component {
     constructor(props) {
         super(props);
