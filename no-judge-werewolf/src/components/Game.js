@@ -68,12 +68,10 @@ class Game extends React.Component {
         this.next_role(this.props.orders);
     }
 
-    witch_complete_cb(event) {
-        var x = { ...this.state };
-        if (event.target.value === 'true') {
-            x.saved_by_witch = x.killed_by_werewolf;
+    witch_complete_cb(saved) {
+        if (saved) {
+            this.setState({ saved_by_witch: this.state.killed_by_werewolf });
         }
-        this.setState(x);
         this.next_role(this.props.orders);
     }
 
