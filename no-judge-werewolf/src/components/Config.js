@@ -33,7 +33,6 @@ class Config extends React.Component {
     }
 
     handleRoleToggle(selected_roles) {
-        console.log(selected_roles);
         this.setState({ enabled_roles: selected_roles });
     }
 

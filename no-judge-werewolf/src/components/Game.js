@@ -4,6 +4,8 @@ import Witch from './Witch'
 import Result from './Result'
 import Savior from './Savior'
 import Ancient from './Ancient'
+import BackgroundSound from './BackgroundSound'
+
 import '../App.css';
 
 class Game extends React.Component {
@@ -83,6 +85,7 @@ class Game extends React.Component {
         if (!this.props.enabled) {
             return <div></div>;
         }
+
         var title = this.is_finished() ? "天亮了：" : "天黑請閉眼";
         return (
             <div>
@@ -116,6 +119,11 @@ class Game extends React.Component {
                     saved_by_witch={this.state.saved_by_witch}
                     saved_by_savior={this.state.saved_by_savior}
                     ancient_index={this.state.ancient_index}
+                />
+
+                <BackgroundSound
+                    enabled={this.props.enabled}
+                    orders={this.props.orders}
                 />
 
                 {/* <p>Dead: {this.state.killed_by_werewolf}</p>

@@ -1,6 +1,7 @@
 import React from 'react'
 import Config from './components/Config'
 import Game from './components/Game'
+
 import './App.css';
 
 class App extends React.Component {
