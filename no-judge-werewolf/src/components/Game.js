@@ -122,6 +122,7 @@ class Game extends React.Component {
                 />
 
                 <BackgroundSound
+                    current={this.state.current}
                     enabled={this.props.enabled}
                     orders={this.props.orders}
                 />
